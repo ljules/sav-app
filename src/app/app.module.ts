@@ -17,6 +17,10 @@ import { RecipeManagerPageComponent } from './pages/user/recipe-manager-page/rec
 import { UsersManagerPageComponent } from './pages/admin/users-manager-page/users-manager-page.component';
 import { IngredientManagerPageComponent } from './pages/admin/ingredient-manager-page/ingredient-manager-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { IngredientFormComponent } from './shared/ingredient-form/ingredient-form.component';
+import { IngredientListComponent } from './shared/ingredient-list/ingredient-list.component';
+import { IngredientImportExportComponent } from './shared/ingredient-import-export/ingredient-import-export.component';
 
 @NgModule({
   declarations: [
@@ -32,13 +36,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AccountManagerPageComponent,
     RecipeManagerPageComponent,
     UsersManagerPageComponent,
-    IngredientManagerPageComponent
+    IngredientManagerPageComponent,
+    IngredientFormComponent,
+    IngredientListComponent,
+    IngredientImportExportComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule, // Ajout du module HttpClientModule pour les services API
+    HttpClientModule,   // Ajout du module HttpClientModule pour les services API
+    FormsModule,        // Ajout du module pour ngModel (pour les formulaires.)
   ],
   providers: [],
   bootstrap: [AppComponent]

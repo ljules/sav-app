@@ -9,7 +9,7 @@ import { Recette } from '../models/Recette';
 })
 
 export class RecetteService {
-    private apiUrl = 'http://localhost:8080/api-savon/v1';
+    private apiUrl = 'http://localhost:8080/api-savon/v1/recette';
   
     constructor(private http: HttpClient) {}
   
@@ -18,7 +18,7 @@ export class RecetteService {
      * @returns Un Observable contenant la liste des recettes.
      */
     getAllRecettes(): Observable<Recette[]> {
-      return this.http.get<Recette[]>(`${this.apiUrl}/recette`);
+      return this.http.get<Recette[]>(`${this.apiUrl}`);
     }
   
     /**
@@ -27,7 +27,7 @@ export class RecetteService {
      * @returns Un Observable contenant la recette correspondante.
      */
     getRecetteById(id: number): Observable<Recette> {
-      return this.http.get<Recette>(`${this.apiUrl}/recette/${id}`);
+      return this.http.get<Recette>(`${this.apiUrl}/${id}`);
     }
   
     /**
@@ -36,7 +36,7 @@ export class RecetteService {
      * @returns Un Observable contenant la recette enregistrée.
      */
     addRecette(recette: Recette): Observable<Recette> {
-      return this.http.post<Recette>(`${this.apiUrl}/recette`, recette);
+      return this.http.post<Recette>(`${this.apiUrl}`, recette);
     }
   
     /**
@@ -46,7 +46,7 @@ export class RecetteService {
      * @returns Un Observable contenant la recette mise à jour.
      */
     updateRecette(id: number, recette: Recette): Observable<Recette> {
-      return this.http.put<Recette>(`${this.apiUrl}/recette/${id}`, recette);
+      return this.http.put<Recette>(`${this.apiUrl}/${id}`, recette);
     }
   
     /**
@@ -55,6 +55,6 @@ export class RecetteService {
      * @returns Un Observable vide.
      */
     deleteRecette(id: number): Observable<void> {
-      return this.http.delete<void>(`${this.apiUrl}/recette/${id}`);
+      return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
   }
