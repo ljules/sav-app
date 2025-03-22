@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Ingredient } from '../../../models/Ingredient';
 import { DEFAULT_INGREDIENT } from '../../../shared/constants/ingredient.constants';
 import { IngredientService } from '../../../services/ingredient.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalIngredientFormComponent } from '../../../shared/modal-ingredient-form/modal-ingredient-form.component';
 
 @Component({
   selector: 'app-ingredient-manager-page',
@@ -10,6 +12,27 @@ import { IngredientService } from '../../../services/ingredient.service';
 })
 
 export class IngredientManagerPageComponent implements OnInit {
+
+
+    // Gestion du modal formulaire pour l'ajout/modification d'un ingrédient :
+    // -----------------------------------------------------------------------
+    openModalFormIngredient(ingredient?: Ingredient) {
+        const modalRef = this.modalService.open(ModalIngredientFormComponent, {
+            centered: true,
+            size: 'lg'            
+        });
+        modalRef.componentInstance.titre = "Ajout d'un nouvel ingrédient";
+        modalRef.componentInstance.message = "Renseignez les valeurs de votre nouvel ingrédient";
+
+        // Gestion des actions :
+        modalRef.result.then((result) => {
+            if (result === Ingredient) {              
+                this.saveIngredient(result);
+            }
+        })
+
+    }
+
 
     // Attributs du composant :
     // ------------------------
@@ -25,9 +48,12 @@ export class IngredientManagerPageComponent implements OnInit {
     selectedIngredient: Ingredient = { ...DEFAULT_INGREDIENT };
 
 
-    // Constructeur avec injection du service :
-    // ----------------------------------------
-    constructor(private ingredientService: IngredientService) {}
+    // Constructeur avec injection des services :
+    // ------------------------------------------
+    constructor(
+        private ingredientService: IngredientService,
+        private modalService: NgbModal
+    ) {}
 
 
     // Fetch avec le service à l'initialisation :
@@ -52,14 +78,6 @@ export class IngredientManagerPageComponent implements OnInit {
         });
     }
 
-
-    /**
-     * Gère la mise à jour de la liste des ingrédients après un import CSV.
-     */
-    handleImportComplete(): void {
-        this.fetchIngredients(); // Recharge la liste après l'importation
-    }
-    
 
     /**
      * Ajoute ou met à jour un ingrédient.
@@ -143,33 +161,12 @@ export class IngredientManagerPageComponent implements OnInit {
       }
       
 
-
     /**
      * Réinitialise le formulaire après soumission.
      */
     resetForm(): void {
         this.selectedIngredient = { ...DEFAULT_INGREDIENT };     
         this.isEditing = false;
-    }
-
-
-    // _________________________________________________
-    //
-    //  METHODES POUR L'IMPORT & EXPORT DES INGREDIENTS 
-    // _________________________________________________
-    
-    /**
-     * Gestion de l'importation CSV.
-     */
-    importFromCSV(event: any): void {
-    // Logique d'importation depuis le sous-composant
-    }
-
-    /**
-     * Gestion de l'exportation CSV.
-     */
-    exportToCSV(): void {
-    // Logique d'exportation depuis le sous-composant
     }
 
 }

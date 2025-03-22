@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Ingredient } from '../../models/Ingredient';
-import { Modal } from 'bootstrap';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalBoxConfirmationComponent } from '../modal-box-confirmation/modal-box-confirmation.component';
 
 @Component({
   selector: 'app-ingredient-list',
@@ -28,67 +28,54 @@ export class IngredientListComponent {
     deleteAll = new EventEmitter<void>(); // Événement pour supprimer TOUS les ingrédients
 
 
-
+    // ---------------------------------------------------------
     // Gestion de la suppression d'un ingrédient avec un modal :
     // ---------------------------------------------------------
     ingredientToDelete: Ingredient | null = null;
-    deleteModal!: Modal;
-    deleteAllModal!: Modal;
 
-
-    /**
-     * Initialise les modales Bootstrap après chargement du composant.
-     */
-    ngAfterViewInit(): void {
-        const modalElement = document.getElementById('deleteModal');
-        if (modalElement) {
-            this.deleteModal = new Modal(modalElement);
-        }
-
-        const modalElementAll = document.getElementById('deleteAllModal');
-        if (modalElementAll) {
-            this.deleteAllModal = new Modal(modalElementAll);
-        }
-    }
-
+    constructor(private modalService: NgbModal) {}
+    
+    // Méthodes NgbModal pour ouvrir et configurer les modals :
+    // --------------------------------------------------------
 
     /**
-     * Affiche la modale de confirmation avant suppression.
-     * @param ingredient L'ingrédient à supprimer.
+     * Modal de suppression de tous les ingrédients :
      */
-    confirmDelete(ingredient: Ingredient): void {
-        this.ingredientToDelete = ingredient;
-        this.deleteModal.show();
+    openDeleteAllModal() {
+        const modalRef = this.modalService.open(ModalBoxConfirmationComponent, {centered: true});
+        modalRef.componentInstance.titre = "Suppression de tous les ingrédients";
+        modalRef.componentInstance.message = "Êtes-vous sûr de vouloir supprimer TOUS les ingrédients ? Cette action est irréversible.";
+        modalRef.componentInstance.btnText = "Supprimer TOUT !";
+        modalRef.componentInstance.btnColor = "danger";
+
+        // Gestion des actions :
+        modalRef.result.then((result: string) => {
+            if (result === 'execute') {              
+                this.deleteAll.emit(); // Exécution de la suppression de tous les ingrédients
+            }
+        })
     }
 
     /**
-     * Supprime l’ingrédient après confirmation.
+     * Modal de suppression d'un ingrédient :
      */
-    deleteConfirmed(): void {
-        if (this.ingredientToDelete) {
-            this.delete.emit(this.ingredientToDelete.id!);
-            this.ingredientToDelete = null;
-            this.deleteModal.hide();
-        }
+    openDeleteOneModal(ingredient: Ingredient) {
+        const modalRef = this.modalService.open(ModalBoxConfirmationComponent, {centered: true});
+        modalRef.componentInstance.titre = "Suppression d'un ingrédient";
+        modalRef.componentInstance.message = `Êtes-vous sûr de vouloir supprimer l’ingrédient ${ ingredient?.nom } ?`;
+        modalRef.componentInstance.btnText = "Supprimer !";
+        modalRef.componentInstance.btnColor = "danger";
+
+        // Gestion des actions :
+        modalRef.result.then((result: string) => {
+            if (result === 'execute') {    
+                // Exécution de la suppression de l'ingrédient          
+                this.ingredientToDelete = ingredient; 
+                this.delete.emit(this.ingredientToDelete.id!);
+                this.ingredientToDelete = null;
+            }
+        })
     }
-
-
-    /**
-     * Affiche la modale de confirmation pour supprimer TOUS les ingrédients.
-     */
-    confirmDeleteAll(): void {
-        this.deleteAllModal.show();
-    }
-
-    /**
-     * Supprime TOUS les ingrédients après confirmation.
-     */
-    deleteAllConfirmed(): void {
-        this.deleteAll.emit();
-        this.deleteAllModal.hide();
-    }
-
-
 
     /**
      * Émet un événement pour éditer un ingrédient.
@@ -98,6 +85,4 @@ export class IngredientListComponent {
         this.edit.emit(ingredient);
     }
     
-
-
 }

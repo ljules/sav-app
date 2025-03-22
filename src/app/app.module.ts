@@ -21,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 import { IngredientFormComponent } from './shared/ingredient-form/ingredient-form.component';
 import { IngredientListComponent } from './shared/ingredient-list/ingredient-list.component';
 import { IngredientImportExportComponent } from './shared/ingredient-import-export/ingredient-import-export.component';
+import { ModalBoxConfirmationComponent } from './shared/modal-box-confirmation/modal-box-confirmation.component';
+import { ModalIngredientFormComponent } from './shared/modal-ingredient-form/modal-ingredient-form.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { IngredientImportExportComponent } from './shared/ingredient-import-expo
     IngredientManagerPageComponent,
     IngredientFormComponent,
     IngredientListComponent,
-    IngredientImportExportComponent
+    IngredientImportExportComponent,
+    ModalBoxConfirmationComponent,
+    ModalIngredientFormComponent
   ],
   imports: [
     BrowserModule,
