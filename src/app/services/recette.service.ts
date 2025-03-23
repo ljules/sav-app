@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Recette } from '../models/Recette';
+import { RecetteDTO } from '../models/RecetteDTO';
 
 
 @Injectable({
@@ -38,6 +39,15 @@ export class RecetteService {
     addRecette(recette: Recette): Observable<Recette> {
       return this.http.post<Recette>(`${this.apiUrl}`, recette);
     }
+
+    /**
+     * Enregistre une nouvelle recette.
+     * @param recette - L'objet Recette à enregistrer.
+     * @returns Un Observable contenant la recette enregistrée.
+     */
+    addRecetteDTO(recette: RecetteDTO): Observable<Recette> {
+        return this.http.post<Recette>(`${this.apiUrl}`, recette)
+    }
   
     /**
      * Met à jour une recette existante par son ID.
@@ -47,6 +57,16 @@ export class RecetteService {
      */
     updateRecette(id: number, recette: Recette): Observable<Recette> {
       return this.http.put<Recette>(`${this.apiUrl}/${id}`, recette);
+    }
+
+    /**
+     * Met à jour une recette existante par son ID.
+     * @param id - L'identifiant de la recette.
+     * @param recette - L'objet Recette mis à jour.
+     * @returns Un Observable contenant la recette mise à jour.
+     */
+    updateRecetteDTO(id: number, recette: RecetteDTO): Observable<Recette> {
+        return this.http.put<Recette>(`${this.apiUrl}/${id}`, recette)
     }
   
     /**

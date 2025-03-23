@@ -23,6 +23,7 @@ import { IngredientListComponent } from './shared/ingredient-list/ingredient-lis
 import { IngredientImportExportComponent } from './shared/ingredient-import-export/ingredient-import-export.component';
 import { ModalBoxConfirmationComponent } from './shared/modal-box-confirmation/modal-box-confirmation.component';
 import { ModalIngredientFormComponent } from './shared/modal-ingredient-form/modal-ingredient-form.component';
+import { RadarChartComponent } from './shared/radar-chart/radar-chart.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ModalIngredientFormComponent } from './shared/modal-ingredient-form/mod
     IngredientListComponent,
     IngredientImportExportComponent,
     ModalBoxConfirmationComponent,
-    ModalIngredientFormComponent
+    ModalIngredientFormComponent,
+    RadarChartComponent
   ],
   imports: [
     BrowserModule,
