@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule  } from '@angular/common/http';       // Ajout de HttpClientModule pour l'API
+import { LOCALE_ID } from '@angular/core';  // Permet d'utiliser les conventions de formattage des données en FR
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -56,7 +57,9 @@ import { ModalIngredientPickerComponent } from './shared/modal-ingredient-picker
     HttpClientModule,   // Ajout du module HttpClientModule pour les services API
     FormsModule,        // Ajout du module pour ngModel (pour les formulaires.)
   ],
-  providers: [],
+  providers: [
+    //{ provide: LOCALE_ID, useValue: 'fr-FR' } // Ajout de LOCALE_ID avec FR
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
